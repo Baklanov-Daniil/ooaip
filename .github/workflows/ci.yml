@@ -28,7 +28,7 @@ jobs:
         run: dotnet test --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Threshold=90 /p:ThresholdType=line /p:ThresholdStat=total
 
       - name: Coverage comment
-        uses: bibipkins/dotnet-test-reporter@v1
+        uses: bibipkins/dotnet-test-reporter@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-path: ./**/coverage.cobertura.xml
