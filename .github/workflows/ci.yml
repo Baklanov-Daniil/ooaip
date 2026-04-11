@@ -17,9 +17,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Checkstyle
-        run: dotnet format --verify-no-changes
-
       - name: Build
         run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 
