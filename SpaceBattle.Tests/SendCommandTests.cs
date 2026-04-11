@@ -25,7 +25,7 @@ public class SendCommandTests
 
         mockReceiver
             .Setup(r => r.Receive(It.IsAny<ICommand>()))
-            .Throws(new InvalidOperationException("Queue is full"));
+            .Throws(new InvalidOperationException());
 
         var sendCommand = new SendCommand(mockCommand.Object, mockReceiver.Object);
 

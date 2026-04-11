@@ -1,10 +1,9 @@
-using System;
 namespace SpaceBattle.Lib;
 
 public class SendCommand : ICommand
 {
-    private readonly ICommand _command;
-    private readonly ICommandReceiver _receiver;
+    private ICommand _command {get;}
+    private ICommandReceiver _receiver {get;}
     public SendCommand(ICommand command, ICommandReceiver receiver)
     {
         _command = command;
