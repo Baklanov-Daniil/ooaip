@@ -11,31 +11,31 @@ public class Vectors
         {
             throw new ArgumentNullException(nameof(coords), "координаты не инициализированы!");
         }
-                if (coords.Length == 0)
+        if (coords.Length == 0)
         {
             throw new ArgumentException("координаты не могут быть пустыми!");
         }
 
-        this.coords = coords;     
+        this.coords = coords;
     }
 
-   public static Vectors operator +(Vectors vec1, Vectors vec2)
+    public static Vectors operator +(Vectors vec1, Vectors vec2)
     {
         if (vec1.dimension != vec2.dimension)
         {
-             throw new ArgumentException("размерности должны совпадать!");
+            throw new ArgumentException("размерности должны совпадать!");
         }
 
         else
         {
             int[] result = new int[vec1.dimension];
-            for(int i = 0; i < vec1.dimension; i++)
+            for (int i = 0; i < vec1.dimension; i++)
             {
                 result[i] = vec1.coords[i] + vec2.coords[i];
             }
             return new Vectors(result);
         }
-        
+
     }
     public override bool Equals(object? obj)
     {
@@ -51,7 +51,7 @@ public class Vectors
             return true;
 
         if (vec1 is null || vec2 is null) return false;
-            
+
 
         return vec1.coords.SequenceEqual(vec2.coords);
     }
