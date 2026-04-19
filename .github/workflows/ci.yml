@@ -33,7 +33,7 @@ jobs:
             /p:CoverletOutput=coverage.cobertura.xml \
             /p:CoverletOutputFormat=cobertura
             
-      - name: 📊 Coverage comment
+      - name: Coverage comment
         uses: bibipkins/dotnet-test-reporter@v1.6.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
