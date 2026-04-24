@@ -1,5 +1,4 @@
-﻿// 📁 SpaceBattle.Lib.Tests/RegisterIoCDependencyMacroCommandTests.cs
-using App;
+﻿using App;
 using Moq;
 
 namespace SpaceBattle.Lib.Tests
