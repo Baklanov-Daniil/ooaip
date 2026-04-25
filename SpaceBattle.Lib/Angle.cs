@@ -9,7 +9,7 @@ public class Angle
 
     public Angle(int n)
     {
-        numenator = n % denominator;
+        numenator = (n % denominator + denominator) % denominator;
     }
 
     public static Angle operator +(Angle a1, Angle a2)
@@ -31,7 +31,7 @@ public class Angle
         return true;  
     }
 
-        public static bool operator !=(Angle a1, Angle a2)
+    public static bool operator !=(Angle a1, Angle a2)
     {
         if (a1.numenator == a2.numenator) return false;
 
