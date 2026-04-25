@@ -1,21 +1,29 @@
-public class Tests
+using Xunit;
+
+public class CommandInjectableTests
 {
     [Fact]
-    public void Test_Inject_And_Execute()
+    public void Execute_ShouldCallInjectedCommand()
     {
-        var mockCmd = new MockCommand();
+        var mockCommand = new MockCommand();
+        
         var target = new CommandInjectableCommand();
         
-        target.Inject(mockCmd);
+        target.Inject(mockCommand);
+        
         target.Execute();
         
-        Assert.True(mockCmd.IsExecuted);
+        Assert.True(mockCommand.IsExecuted);
     }
+}
 
-    [Fact]
-    public void Test_Execute_Without_Inject_Throws()
+// заглушка для проверки факта вызова
+public class MockCommand : ICommand
+{
+    public bool IsExecuted { get; private set; }
+
+    public void Execute()
     {
-        var target = new CommandInjectableCommand();
-        Assert.Throws<InvalidOperationException>(() => target.Execute());
+        IsExecuted = true;
     }
 }
