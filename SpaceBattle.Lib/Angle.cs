@@ -14,21 +14,20 @@ public class Angle
 
     public static Angle operator +(Angle a1, Angle a2)
     {
-            int result = a1.numenator + a2.numenator;
-            return new Angle(result);
+        int result = a1.numenator + a2.numenator;
+        return new Angle(result);
     }
-    
 
-    public static implicit operator double(Angle angle) 
-    { 
-        return (double)angle.numenator / denominator * 2 * Math.PI; 
-    } 
+    public static implicit operator double(Angle angle)
+    {
+        return (double)angle.numenator / denominator * 2 * Math.PI;
+    }
 
     public static bool operator ==(Angle a1, Angle a2)
     {
         if (a1.numenator != a2.numenator) return false;
 
-        return true;  
+        return true;
     }
 
     public static bool operator !=(Angle a1, Angle a2)
@@ -42,11 +41,11 @@ public class Angle
     {
         if (obj == null) return false;
 
-       if (obj is Angle other)
+        if (obj is Angle other)
         {
             return this.numenator == other.numenator;
         };
-
+        
         return false;
     }
 
@@ -54,5 +53,4 @@ public class Angle
     {
         return numenator.GetHashCode();
     }
-        
 }

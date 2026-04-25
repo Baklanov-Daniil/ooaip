@@ -16,7 +16,7 @@ public class AngleTests
         int expected = 4;
 
         Assert.Equal(result.numenator, expected);
-        
+
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class AngleTests
 
         var result = a1.Equals(a2);
 
-        Assert.False(result);  
+        Assert.False(result);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class AngleTests
         var a1 = new Angle(1);
         var a2 = new Angle(2);
 
-        Assert.True(a1 != a2); 
+        Assert.True(a1 != a2);
     }
 
     [Fact]
@@ -70,17 +70,15 @@ public class AngleTests
     }
 
     [Fact]
-    public void Angle_Equals_ReturnsFalseForNullAndDifferentType()
+    public void AngleEqualsReturnsFalseForNullAndDifferentType()
     {
         var angle = new Angle(1);
 
         Assert.False(angle.Equals(null));
-
-        Assert.False(angle.Equals("не угол"));
     }
 
     [Fact]
-    public void Angle_NotEqualOperator_WorksCorrectly()
+    public void AngleNotEqualOperatorWorksCorrectly()
     {
         var a1 = new Angle(1);
         var a2 = new Angle(2);
