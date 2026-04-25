@@ -1,6 +1,6 @@
 public class CommandInjectableCommand : ICommand, ICommandInjectable
 {
-    private ICommand _command;
+    private ICommand? _command;
 
     public void Inject(ICommand command)
     {
