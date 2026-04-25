@@ -68,4 +68,26 @@ public class AngleTests
 
         Assert.NotEqual(0, hash);
     }
+
+[Fact]
+public void Angle_Equals_ReturnsFalseForNullAndDifferentType()
+{
+    var angle = new Angle(1);
+
+    Assert.False(angle.Equals(null));
+
+    Assert.False(angle.Equals("не угол"));
+}
+
+[Fact]
+public void Angle_NotEqualOperator_WorksCorrectly()
+{
+    var a1 = new Angle(1);
+    var a2 = new Angle(2);
+    var a3 = new Angle(1);
+
+    Assert.True(a1 != a2);
+
+    Assert.False(a1 != a3);
+}
 }
