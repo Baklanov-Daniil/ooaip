@@ -15,6 +15,13 @@ public class CommandInjectableTests
         
         Assert.True(mockCommand.IsExecuted);
     }
+
+    [Fact]
+    public void Execute_Throws_If_Not_Injected()
+    {
+        var target = new CommandInjectableCommand();
+        Assert.Throws<InvalidOperationException>(() => target.Execute());
+    }
 }
 
 // заглушка для проверки факта вызова
