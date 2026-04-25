@@ -113,4 +113,9 @@ public class UnitTest1
 
         Assert.False(v.Equals("строка вместо вектора"));
     }
+    [Fact]
+    public void Vectors_Constructor_ThrowsException_WhenCoordsIsNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => new Vectors(null!));
+    }
 }
