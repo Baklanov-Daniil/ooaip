@@ -14,7 +14,7 @@ public class Angle
 
     public static Angle operator +(Angle a1, Angle a2)
     {
-            int result = (a1.numenator + a2.numenator) % denominator;
+            int result = a1.numenator + a2.numenator;
             return new Angle(result);
     }
     
