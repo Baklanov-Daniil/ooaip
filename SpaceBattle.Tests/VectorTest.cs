@@ -99,4 +99,18 @@ public class UnitTest1
         Assert.NotEqual(0, hash);
     }
 
+    [Fact]
+    public void VectorsConstructorThrowsArgumentExceptionWhenCoordsIsEmpty()
+    {
+
+        Assert.Throws<ArgumentException>(() => new Vectors(new int[] { }));
+    }
+
+    [Fact]
+    public void VectorsEqualsReturnsFalseWhenObjectIsNotVectors()
+    {
+        var v = new Vectors(new int[] { 1, 2 });
+
+        Assert.False(v.Equals("строка вместо вектора"));
+    }
 }
