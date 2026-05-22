@@ -13,7 +13,7 @@ namespace SpaceBattle.Lib.Tests
             Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
         }
         [Fact]
-        public void Execute_ShouldRegisterIoCDependencySendCommand()
+        public void ExecuteShouldRegisterIoCDependencySendCommand()
         {
             var command = new Mock<ICommand>();
             var receiver = new Mock<ICommandReceiver>();

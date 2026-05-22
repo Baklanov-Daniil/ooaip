@@ -1,5 +1,4 @@
 ﻿using App;
-
 namespace SpaceBattle.Lib
 {
     public class RegisterIoCDependencySendCommand : ICommand
