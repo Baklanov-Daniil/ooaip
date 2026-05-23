@@ -12,7 +12,8 @@ namespace SpaceBattle.Lib.Tests
         {
             new InitCommand().Execute();
             var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
-            Ioc.Resolve<ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
+            // ИСПРАВЛЕНО: App.ICommand
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
         }
 
         [Fact]
@@ -21,7 +22,7 @@ namespace SpaceBattle.Lib.Tests
             var mockRotating = new Mock<IRotating>();
             var mockGameObject = new Mock<object>();
             
-            Ioc.Resolve<ICommand>("IoC.Register", "Adapters.IRotating", (object[] args)
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Adapters.IRotating", (object[] args)
              => mockRotating.Object).Execute();
 
             var register = new RegisterIoCDependencyRotateCommand();
@@ -34,7 +35,7 @@ namespace SpaceBattle.Lib.Tests
 
         public void Dispose()
         {
-            Ioc.Resolve<ICommand>("IoC.Scope.Current.Clear").Execute();
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
         }
     }
 }
