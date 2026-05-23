@@ -18,18 +18,18 @@ namespace SpaceBattle.Lib.Tests
         [Fact]
         public void Execute_ShouldRegisterRotateCommandDependency()
         {
-            var mockAdapter = new Mock<IDictionary<string, object>>();
+            var mockRotating = new Mock<IRotating>();
             var mockGameObject = new Mock<object>();
             
-            Ioc.Resolve<ICommand>("IoC.Register", "Adapters.IRotatingObject", (object[] args)
-             => mockAdapter.Object).Execute();
+            Ioc.Resolve<ICommand>("IoC.Register", "Adapters.IRotating", (object[] args)
+             => mockRotating.Object).Execute();
 
             var register = new RegisterIoCDependencyRotateCommand();
             register.Execute();
 
             var command = Ioc.Resolve<ICommand>("Commands.Rotate", mockGameObject.Object);
             
-            Assert.NotNull(command); 
+            Assert.NotNull(command);
         }
 
         public void Dispose()
