@@ -8,7 +8,7 @@ namespace SpaceBattle.Lib
         {
             Ioc.Resolve<App.ICommand>("IoC.Register", "Commands.Rotate",
                 (object[] args) => new RotateCommand(
-                    Ioc.Resolve<IRotating>("Adapters.IRotating", args[0])));
+                    Ioc.Resolve<IRotating>("Adapters.IRotating", args[0]))).Execute();
         }
     }
 }
