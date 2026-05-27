@@ -1,4 +1,5 @@
 namespace SpaceBattle.Lib;
+using App;
 
 public class RegisterDependencyCommandInjectableCommand : ICommand {
     public void Execute() {

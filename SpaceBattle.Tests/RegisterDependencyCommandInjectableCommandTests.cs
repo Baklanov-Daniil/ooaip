@@ -1,4 +1,6 @@
 using SpaceBattle.Lib;
+using App;
+
 
 namespace SpaceBattle.Tests;
 
