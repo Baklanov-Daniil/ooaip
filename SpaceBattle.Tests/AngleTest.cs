@@ -88,4 +88,25 @@ public class AngleTests
 
         Assert.False(a1 != a3);
     }
+
+    [Fact]
+    public void AngleImplicitConversionToDouble()
+    {
+        var angle = new Angle(2);
+        
+        double radians = angle;
+        
+        double expected = 2.0 / Angle.denominator * 2 * Math.PI;
+        
+        Assert.Equal(expected, radians, 10);
+    }
+
+    [Fact]
+    public void AngleEqualsReturnsFalseForDifferentType()
+    {
+        var angle = new Angle(1);
+        object notAnAngle = "это строка, а не угол";
+        
+        Assert.False(angle.Equals(notAnAngle));
+    }
 }

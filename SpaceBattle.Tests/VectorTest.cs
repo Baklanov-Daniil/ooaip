@@ -118,4 +118,14 @@ public class UnitTest1
     {
         Assert.Throws<ArgumentNullException>(() => new Vectors(null!));
     }
+
+    [Fact]
+    public void VectorsOperatorEqualsReturnsTrueForSameReference()
+    {
+        var vector = new Vectors(new int[] { 1, 2, 3 });
+        
+        #pragma warning disable CS1718
+        Assert.True(vector == vector);
+        #pragma warning restore CS1718
+    }
 }
