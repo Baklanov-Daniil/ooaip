@@ -40,8 +40,6 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
     [Fact]
     public void AfterExecute_QueueCreate_ResolvesToCorrectType()
     {
-        new RegisterIoCDependencyActionsStart().Execute();
-
         var queue = Ioc.Resolve<BlockingCollection<App.ICommand>>("Actions.Queue.Create");
 
         Assert.NotNull(queue);
