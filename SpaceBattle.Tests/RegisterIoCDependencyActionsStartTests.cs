@@ -21,7 +21,7 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
     {
         IDictionary<string, object> order = new Dictionary<string, object>
         {
-            ["Queue"] = new BlockingCollection<ICommand>()
+            ["Queue"] = new BlockingCollection<App.ICommand>()
         };
 
         var cmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
@@ -32,7 +32,7 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
     [Fact]
     public void StartCommand_Execute_StartsThread()
     {
-        var queue = new BlockingCollection<ICommand>();
+        var queue = new BlockingCollection<App.ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
         {
             ["Queue"] = queue
