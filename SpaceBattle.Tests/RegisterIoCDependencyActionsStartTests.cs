@@ -15,7 +15,11 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
 
     public void Dispose()
     {
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        try
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        }
+        catch { }
     }
 
     [Fact]
