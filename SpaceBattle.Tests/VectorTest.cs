@@ -128,4 +128,37 @@ public class UnitTest1
         Assert.True(vector == vector);
         #pragma warning restore CS1718
     }
+
+    [Fact]
+    public void VectorsOperatorEquals_FirstOperandNull()
+    {
+        Vectors? v1 = null;
+        Vectors? v2 = new Vectors(new int[] { 1, 2, 3 });
+        
+        #pragma warning disable CS8604
+        Assert.False(v1 == v2);
+        #pragma warning restore CS8604
+    }
+
+    [Fact]
+    public void VectorsOperatorEquals_SecondOperandNull()
+    {
+        Vectors? v1 = new Vectors(new int[] { 1, 2, 3 });
+        Vectors? v2 = null;
+        
+        #pragma warning disable CS8604
+        Assert.False(v1 == v2);
+        #pragma warning restore CS8604
+    }
+
+    [Fact]
+    public void VectorsOperatorEquals_BothNull()
+    {
+        Vectors? v1 = null;
+        Vectors? v2 = null;
+        
+        #pragma warning disable CS8604
+        Assert.True(v1 == v2);
+        #pragma warning restore CS8604
+}
 }
