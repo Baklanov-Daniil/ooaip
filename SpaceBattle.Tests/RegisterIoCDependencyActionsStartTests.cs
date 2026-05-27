@@ -5,9 +5,14 @@ using Xunit;
 
 namespace SpaceBattle.Tests;
 
-public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
+public class RegisterIoCDependencyActionsStartTests : IDisposable
 {
-    public RegisterIoCDependencyActionsStartTests_19task() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+    public RegisterIoCDependencyActionsStartTests() {
+        new app.Scopes.InitCommand().Execute();
+        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+    }
+    
+    
     public void Dispose() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
 
     [Fact]
@@ -20,7 +25,7 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
             ["Queue"] = new BlockingCollection<ICommand>()
         };
 
-        var cmd = Ioc.Resolve<ICommand>("Actions.Start", order);
+        var cmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
 
         Assert.NotNull(cmd);
     }
@@ -28,15 +33,13 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
     [Fact]
     public void StartCommand_Execute_StartsThread()
     {
-        new RegisterIoCDependencyActionsStart().Execute();
-
         var queue = new BlockingCollection<ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
         {
             ["Queue"] = queue
         };
 
-        var startCmd = Ioc.Resolve<ICommand>("Actions.Start", order);
+        var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
         startCmd.Execute();
 
         Assert.True(order.ContainsKey("Thread"));
