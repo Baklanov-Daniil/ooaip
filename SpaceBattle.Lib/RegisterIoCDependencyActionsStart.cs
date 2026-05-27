@@ -3,47 +3,34 @@ using App;
 
 namespace SpaceBattle.Lib;
 
-public class StartCommand : ICommand
+public class RegisterIoCDependencyActionsStart : App.ICommand
 {
-    private readonly IDictionary<string, object> _order;
-
-    public StartCommand(IDictionary<string, object> order)
-    {
-        _order = order;
-    }
-
     public void Execute()
     {
-        var queue = (BlockingCollection<App.ICommand>)_order["Queue"];
-
-        var thread = new Thread(() =>
+        try
         {
-            foreach (var cmd in queue.GetConsumingEnumerable())
-            {
-                cmd.Execute();
-            }
-        })
-        { IsBackground = true };
+            Ioc.Resolve<object>("Actions.Start");
+        }
+        catch
+        {
+            Ioc.Resolve<App.ICommand>(
+                "IoC.Register", 
+                "Actions.Start", 
+                (object[] args) => new StartCommand((IDictionary<string, object>)args[0])
+            ).Execute();
+        }
 
-        _order["Thread"] = thread;
-        thread.Start();
-    }
-}
-
-public class RegisterIoCDependencyActionsStart : ICommand
-{
-    public void Execute()
-    {
-        Ioc.Resolve<App.ICommand>(
-            "IoC.Register", 
-            "Actions.Start", 
-            (object[] args) => new StartCommand((IDictionary<string, object>)args[0])
-        ).Execute();
-
-        Ioc.Resolve<App.ICommand>(
-            "IoC.Register", 
-            "Actions.Queue.Create", 
-            (object[] args) => new BlockingCollection<App.ICommand>()
-        ).Execute();
+        try
+        {
+            Ioc.Resolve<object>("Actions.Queue.Create");
+        }
+        catch
+        {
+            Ioc.Resolve<App.ICommand>(
+                "IoC.Register", 
+                "Actions.Queue.Create", 
+                (object[] args) => new BlockingCollection<App.ICommand>()
+            ).Execute();
+        }
     }
 }

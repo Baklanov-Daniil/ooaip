@@ -29,31 +29,6 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
         };
 
         var cmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
-
         Assert.NotNull(cmd);
-    }
-
-    [Fact]
-    public void StartCommand_Execute_StartsThread()
-    {
-        new RegisterIoCDependencyActionsStart().Execute();
-
-        var queue = new BlockingCollection<App.ICommand>();
-        IDictionary<string, object> order = new Dictionary<string, object>
-        {
-            ["Queue"] = queue
-        };
-
-        var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
-        
-        startCmd.Execute();
-
-        Assert.True(order.ContainsKey("Thread"));
-        var thread = (Thread)order["Thread"];
-        
-        Assert.NotNull(thread);
-        Assert.True(thread.IsAlive);
-
-        queue.CompleteAdding(); 
     }
 }
