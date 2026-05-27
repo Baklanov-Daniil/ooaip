@@ -27,8 +27,6 @@ public class AuthTests : IDisposable
     [Fact]
     public void AuthCommand_WithValidToken_ExecutesWithoutException()
     {
-        new RegisterIoCDependencyAuth().Execute();
-
         var context = new TestAuthContext 
         { 
             Token = "valid_token", 
