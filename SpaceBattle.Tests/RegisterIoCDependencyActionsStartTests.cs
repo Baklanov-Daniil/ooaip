@@ -5,9 +5,9 @@ using SpaceBattle.Lib;
 
 namespace SpaceBattle.Tests;
 
-public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
+public class RegisterIoCDependencyActionsStartTests : IDisposable
 {
-    public RegisterIoCDependencyActionsStartTests_19task()
+    public RegisterIoCDependencyActionsStartTests()
     {
         new App.Scopes.InitCommand().Execute();
         Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
@@ -36,11 +36,16 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
     [Fact]
     public void StartCommand_Execute_StartsThread()
     {
+        new RegisterIoCDependencyActionsStart().Execute();
         var queue = new BlockingCollection<App.ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
         {
             ["Queue"] = queue
         };
+
+        var wasExecuted = new AutoResetEvent(false);
+        var mockCommand = new MockCommand(() => wasExecuted.Set());
+        queue.Add(mockCommand);
 
         var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
         
@@ -52,23 +57,19 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
         Assert.NotNull(thread);
         Assert.True(thread.IsAlive);
 
+        bool isSignaled = wasExecuted.WaitOne(500);
+        Assert.True(isSignaled);
+
         queue.CompleteAdding();
     }
 
     [Fact]
     public void Execute_RegistersActionsQueueCreate()
     {
-        // Arrange
-        var registerCmd = new RegisterIoCDependencyActionsStart();
+        new RegisterIoCDependencyActionsStart().Execute();
     
-        // Act
-        registerCmd.Execute();
-    
-        // Assert
-        var queueFactory = Ioc.Resolve<Func<object[], BlockingCollection<App.ICommand>>>("Actions.Queue.Create");
-        Assert.NotNull(queueFactory);
-    
-        var queue = queueFactory(new object[] { });
+        var queue = Ioc.Resolve<BlockingCollection<App.ICommand>>("Actions.Queue.Create");
+        
         Assert.NotNull(queue);
         Assert.IsType<BlockingCollection<App.ICommand>>(queue);
     }
@@ -76,46 +77,46 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
     [Fact]
     public void Execute_RegistersBothDependencies()
     {
-        // Arrange
-        var registerCmd = new RegisterIoCDependencyActionsStart();
+        new RegisterIoCDependencyActionsStart().Execute();
     
-        // Act
-        registerCmd.Execute();
-    
-        // Assert - проверяем что обе регистрации произошли
         var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", 
             new Dictionary<string, object> { ["Queue"] = new BlockingCollection<App.ICommand>() });
         Assert.NotNull(startCmd);
     
-        var queueFactory = Ioc.Resolve<Func<object[], BlockingCollection<App.ICommand>>>("Actions.Queue.Create");
-        Assert.NotNull(queueFactory);
+        var queue = Ioc.Resolve<BlockingCollection<App.ICommand>>("Actions.Queue.Create");
+        Assert.NotNull(queue);
     }
     
     [Fact]
     public void CreatedQueue_CanAddAndTakeCommands()
     {
-        // Arrange
         new RegisterIoCDependencyActionsStart().Execute();
-        var queueFactory = Ioc.Resolve<Func<object[], BlockingCollection<App.ICommand>>>("Actions.Queue.Create");
-        var queue = queueFactory(new object[] { });
+        var queue = Ioc.Resolve<BlockingCollection<App.ICommand>>("Actions.Queue.Create");
     
-        var mockCommand = new MockCommand();
+        var wasExecuted = new AutoResetEvent(false);
+        var mockCommand = new MockCommand(() => wasExecuted.Set());
     
-        // Act
         queue.Add(mockCommand);
         queue.CompleteAdding();
     
         var commands = queue.ToList();
     
-        // Assert
         Assert.Single(commands);
         Assert.Same(mockCommand, commands[0]);
     }
     
-    // Вспомогательный класс для теста
     private class MockCommand : App.ICommand
     {
-        public bool Executed { get; private set; }
-        public void Execute() => Executed = true;
+        private readonly Action? _action;
+
+        public MockCommand(Action? action = null)
+        {
+            _action = action;
+        }
+
+        public void Execute()
+        {
+            _action?.Invoke();
+        }
     }
 }
