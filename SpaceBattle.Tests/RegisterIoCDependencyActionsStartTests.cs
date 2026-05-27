@@ -8,7 +8,7 @@ namespace SpaceBattle.Tests;
 public class RegisterIoCDependencyActionsStartTests : IDisposable
 {
     public RegisterIoCDependencyActionsStartTests() {
-        new app.Scopes.InitCommand().Execute();
+        new App.Scopes.InitCommand().Execute();
         Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
     }
     
