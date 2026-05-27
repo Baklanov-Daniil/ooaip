@@ -9,14 +9,14 @@ public class RegisterDependencyCommandInjectableCommandTests : IDisposable
     public RegisterDependencyCommandInjectableCommandTests()
     {
         new App.Scopes.InitCommand().Execute();
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        Ioc.Resolve<ICommand>("IoC.Scope.Current.Clear").Execute();
     }
 
     public void Dispose()
     {
         try
         {
-            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+            Ioc.Resolve<ICommand>("IoC.Scope.Current.Clear").Execute();
         }
         catch
         {

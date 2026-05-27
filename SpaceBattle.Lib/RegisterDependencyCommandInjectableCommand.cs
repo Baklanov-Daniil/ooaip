@@ -6,7 +6,7 @@ public class RegisterDependencyCommandInjectableCommand : ICommand
 {
     public void Execute()
     {
-        Ioc.Resolve<App.ICommand>(
+        Ioc.Resolve<ICommand>(
             "IoC.Register", 
             "Commands.CommandInjectable", 
             (object[] args) => new CommandInjectableCommand()
