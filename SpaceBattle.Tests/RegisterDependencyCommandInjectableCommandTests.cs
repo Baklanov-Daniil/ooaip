@@ -34,7 +34,7 @@ public class RegisterDependencyCommandInjectableCommandTests : IDisposable
         registerCmd.Execute();
 
         // Assert
-        var asICommand = Ioc.Resolve<App.ICommand>("Commands.CommandInjectable");
+        var asICommand = Ioc.Resolve<ICommand>("Commands.CommandInjectable");
         var asICommandInjectable = Ioc.Resolve<ICommandInjectable>("Commands.CommandInjectable");
         var asConcreteType = Ioc.Resolve<CommandInjectableCommand>("Commands.CommandInjectable");
 
