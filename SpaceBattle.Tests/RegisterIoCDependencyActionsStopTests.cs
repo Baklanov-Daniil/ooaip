@@ -30,8 +30,6 @@ public class RegisterIoCDependencyActionsStopTests : IDisposable
     [Fact]
     public void StopCommand_Execute_StopsRunningThread()
     {
-        new RegisterIoCDependencyActionsStart().Execute();
-        new RegisterIoCDependencyActionsStop().Execute();
 
         var queue = new BlockingCollection<App.ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
