@@ -2,8 +2,7 @@ using App;
 
 namespace SpaceBattle.Lib;
 
-
-public class RegisterDependencyCommandInjectableCommand : ICommand
+public class RegisterDependencyCommandInjectableCommand : App.ICommand
 {
     public void Execute()
     {

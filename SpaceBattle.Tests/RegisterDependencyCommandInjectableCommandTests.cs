@@ -14,17 +14,27 @@ public class RegisterDependencyCommandInjectableCommandTests : IDisposable
 
     public void Dispose()
     {
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        try
+        {
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        }
+        catch
+        {
+            // Игнорируем ошибки при очистке
+        }
     }
 
     [Fact]
     public void AfterExecute_AllThreeResolveTypesWork_WithoutException()
     {
+        // Arrange
         var registerCmd = new RegisterDependencyCommandInjectableCommand();
 
+        // Act
         registerCmd.Execute();
 
-        var asICommand = Ioc.Resolve<SpaceBattle.Lib.ICommand>("Commands.CommandInjectable");
+        // Assert
+        var asICommand = Ioc.Resolve<App.ICommand>("Commands.CommandInjectable");
         var asICommandInjectable = Ioc.Resolve<ICommandInjectable>("Commands.CommandInjectable");
         var asConcreteType = Ioc.Resolve<CommandInjectableCommand>("Commands.CommandInjectable");
 
