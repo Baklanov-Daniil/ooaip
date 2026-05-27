@@ -4,14 +4,14 @@ using App;
 
 namespace SpaceBattle.Tests;
 
-public class RegisterDependencyCommandInjectableCommandTests_18task : IDisposable
+public class RegisterDependencyCommandInjectableCommandTests : IDisposable
 {
-    public RegisterDependencyCommandInjectableCommandTests_18task()
+    public RegisterDependencyCommandInjectableCommandTests()
     {
-        Ioc.Clear();
+        Ioc.Dispose();
     }
 
-    public void Dispose() => Ioc.Clear();
+    public void Dispose() => Ioc.Dispose();
 
 
     [Fact]
