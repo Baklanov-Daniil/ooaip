@@ -14,7 +14,7 @@ public class RegisterDependencyCommandInjectableCommandTests : IDisposable
 
     public void Dispose()
     {
-        Ioc.Resolve<ICommand>("IoC.Scope.Current.Clear").Execute();
+        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
     }
 
     [Fact]
