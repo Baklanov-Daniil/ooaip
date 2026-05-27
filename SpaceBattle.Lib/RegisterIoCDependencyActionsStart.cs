@@ -3,7 +3,7 @@ using App;
 
 namespace SpaceBattle.Lib;
 
-public class StartCommand : App.ICommand
+public class StartCommand : ICommand
 {
     private readonly IDictionary<string, object> _order;
 
@@ -30,7 +30,7 @@ public class StartCommand : App.ICommand
     }
 }
 
-public class RegisterIoCDependencyActionsStart : App.ICommand
+public class RegisterIoCDependencyActionsStart : ICommand
 {
     public void Execute()
     {
