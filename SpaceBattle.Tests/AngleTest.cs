@@ -109,4 +109,22 @@ public class AngleTests
         
         Assert.False(angle.Equals(notAnAngle));
     }
+
+    [Fact]
+    public void AngleEqualsReturnsFalseForNonAngleObject()
+    {
+        var angle = new Angle(1);
+        object notAnAngle = "это строка, а не угол";
+        
+        Assert.False(angle.Equals(notAnAngle));
+    }
+
+    [Fact]
+    public void AngleOperatorEqualsReturnsFalseForDifferentNumerators()
+    {
+        var a1 = new Angle(1);
+        var a2 = new Angle(2);
+        
+        Assert.False(a1 == a2);
+    }
 }
