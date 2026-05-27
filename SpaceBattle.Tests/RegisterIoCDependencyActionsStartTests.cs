@@ -1,24 +1,28 @@
 using System.Collections.Concurrent;
-using SpaceBattle.Lib;
-using App;
 using Xunit;
+using App;
+using SpaceBattle.Lib;
 
 namespace SpaceBattle.Tests;
 
-public class RegisterIoCDependencyActionsStartTests : IDisposable
+public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
 {
-    public RegisterIoCDependencyActionsStartTests() {
+    public RegisterIoCDependencyActionsStartTests_19task()
+    {
         new App.Scopes.InitCommand().Execute();
         Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
     }
-    
-    
-    public void Dispose() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+
+    public void Dispose()
+    {
+        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+    }
 
     [Fact]
     public void AfterExecute_ActionsStart_ResolvesWithoutException()
     {
         new RegisterIoCDependencyActionsStart().Execute();
+
         IDictionary<string, object> order = new Dictionary<string, object>
         {
             ["Queue"] = new BlockingCollection<App.ICommand>()
@@ -39,10 +43,14 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
         };
 
         var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
+        
         startCmd.Execute();
 
         Assert.True(order.ContainsKey("Thread"));
-        Assert.True(((Thread)order["Thread"]).IsAlive);
+        
+        var thread = (Thread)order["Thread"];
+        Assert.NotNull(thread);
+        Assert.True(thread.IsAlive);
 
         queue.CompleteAdding();
     }
