@@ -19,7 +19,7 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
             ["Queue"] = new BlockingCollection<ICommand>()
         };
 
-        var cmd = Ioс.Resolve<ICommand>("Actions.Start", order);
+        var cmd = Ioс.Resolve<App.ICommand>("Actions.Start", order);
 
         Assert.NotNull(cmd);
     }
@@ -35,7 +35,7 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
             ["Queue"] = queue
         };
 
-        var startCmd = Ioc.Resolve<ICommand>("Actions.Start", order);
+        var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
         startCmd.Execute();
 
         Assert.True(order.ContainsKey("Thread"));
