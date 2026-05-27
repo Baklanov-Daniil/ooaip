@@ -20,7 +20,7 @@ public class AuthCommand : App.ICommand
 
     public void Execute()
     {
-        bool isValid = Ioc.Resolve<bool>("Auth.ValidateToken", _context.Token, _context.GameId, _context.PlayerId);
+        bool isValid = (bool)Ioc.Resolve<bool>("Auth.ValidateToken", _context.Token, _context.GameId, _context.PlayerId);
 
         if (!isValid)
         {
@@ -44,7 +44,7 @@ public class RegisterIoCDependencyAuth : App.ICommand
                 "Auth.ValidateToken",
                 (object[] args) => {
                     var token = (string)args[0];
-                    return !string.IsNullOrEmpty(token);
+                    return (object)!string.IsNullOrEmpty(token);
                 }
             ).Execute();
     }
