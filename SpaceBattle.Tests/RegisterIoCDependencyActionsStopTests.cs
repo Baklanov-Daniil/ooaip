@@ -60,7 +60,7 @@ public class RegisterIoCDependencyActionsStopTests : IDisposable
             ["Queue"] = queue
         };
 
-        var stopCmd = IoC.Resolve<App.ICommand>("Actions.Stop", order);
+        var stopCmd = Ioc.Resolve<App.ICommand>("Actions.Stop", order);
 
         var sw = System.Diagnostics.Stopwatch.StartNew();
         stopCmd.Execute();
