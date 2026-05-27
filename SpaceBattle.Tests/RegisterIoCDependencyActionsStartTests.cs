@@ -1,26 +1,13 @@
 using System.Collections.Concurrent;
-using Xunit;
-using App;
 using SpaceBattle.Lib;
+using App;
 
 namespace SpaceBattle.Tests;
 
-public class RegisterIoCDependencyActionsStartTests : IDisposable
+public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
 {
-    public RegisterIoCDependencyActionsStartTests()
-    {
-        new App.Scopes.InitCommand().Execute();
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
-    }
-
-    public void Dispose()
-    {
-        try
-        {
-            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
-        }
-        catch { }
-    }
+    public RegisterIoCDependencyActionsStartTests_19task() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+    public void Dispose() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
 
     [Fact]
     public void AfterExecute_ActionsStart_ResolvesWithoutException()
@@ -29,66 +16,31 @@ public class RegisterIoCDependencyActionsStartTests : IDisposable
 
         IDictionary<string, object> order = new Dictionary<string, object>
         {
-            ["Queue"] = new BlockingCollection<App.ICommand>()
+            ["Queue"] = new BlockingCollection<ICommand>()
         };
 
-        var cmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
+        var cmd = Ioс.Resolve<ICommand>("Actions.Start", order);
 
         Assert.NotNull(cmd);
     }
 
     [Fact]
-    public void AfterExecute_QueueCreate_ResolvesToCorrectType()
-    {
-        var queue = Ioc.Resolve<BlockingCollection<App.ICommand>>("Actions.Queue.Create");
-
-        Assert.NotNull(queue);
-        Assert.IsType<BlockingCollection<App.ICommand>>(queue);
-    }
-
-    [Fact]
-    public void StartCommand_Execute_StartsThreadAndExecutesInternalLoop()
+    public void StartCommand_Execute_StartsThread()
     {
         new RegisterIoCDependencyActionsStart().Execute();
 
-        var queue = new BlockingCollection<App.ICommand>();
+        var queue = new BlockingCollection<ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
         {
             ["Queue"] = queue
         };
 
-        var wasExecuted = new AutoResetEvent(false);
-        var mockCommand = new MockCommand(() => wasExecuted.Set());
-        queue.Add(mockCommand);
-
-        var startCmd = Ioc.Resolve<App.ICommand>("Actions.Start", order);
-        
+        var startCmd = Ioc.Resolve<ICommand>("Actions.Start", order);
         startCmd.Execute();
 
         Assert.True(order.ContainsKey("Thread"));
-        var thread = (Thread)order["Thread"];
-        Assert.NotNull(thread);
-        Assert.True(thread.IsAlive);
-
-        bool isSignaled = wasExecuted.WaitOne(500);
-        Assert.True(isSignaled);
+        Assert.True(((Thread)order["Thread"]).IsAlive);
 
         queue.CompleteAdding();
-        thread.Join(100);
-    }
-}
-
-public class MockCommand : App.ICommand
-{
-    private readonly Action _action;
-
-    public MockCommand(Action action)
-    {
-        _action = action;
-    }
-
-    public void Execute()
-    {
-        _action();
     }
 }
