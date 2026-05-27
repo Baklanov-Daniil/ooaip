@@ -1,3 +1,5 @@
+using SpaceBattle.Lib;
+namespace SpaceBattle.Lib;
 public class CommandInjectableCommand : ICommand, ICommandInjectable
 {
     private ICommand? _command;
