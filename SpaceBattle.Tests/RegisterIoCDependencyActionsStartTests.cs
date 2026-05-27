@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using SpaceBattle.Lib;
 using App;
 using Xunit;
@@ -19,7 +20,7 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
             ["Queue"] = new BlockingCollection<ICommand>()
         };
 
-        var cmd = Ioс.Resolve<ICommand>("Actions.Start", order);
+        var cmd = Ioc.Resolve<ICommand>("Actions.Start", order);
 
         Assert.NotNull(cmd);
     }
