@@ -36,8 +36,6 @@ public class RegisterIoCDependencyActionsStartTests_19task : IDisposable
     [Fact]
     public void StartCommand_Execute_StartsThread()
     {
-        new RegisterIoCDependencyActionsStart().Execute();
-
         var queue = new BlockingCollection<App.ICommand>();
         IDictionary<string, object> order = new Dictionary<string, object>
         {
