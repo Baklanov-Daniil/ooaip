@@ -8,10 +8,10 @@ public class RegisterDependencyCommandInjectableCommandTests : IDisposable
 {
     public RegisterDependencyCommandInjectableCommandTests()
     {
-        Ioc.Dispose();
+        Ioc.Clear();
     }
 
-    public void Dispose() => Ioc.Dispose();
+    public void Dispose() => Ioc.Clear();
 
 
     [Fact]
