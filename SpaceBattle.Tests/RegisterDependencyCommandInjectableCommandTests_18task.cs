@@ -6,10 +6,10 @@ public class RegisterDependencyCommandInjectableCommandTests_18task : IDisposabl
 {
     public RegisterDependencyCommandInjectableCommandTests_18task()
     {
-        IoC.Clear();
+        Ioc.Clear();
     }
 
-    public void Dispose() => IoC.Clear();
+    public void Dispose() => Ioc.Clear();
 
 
     [Fact]
@@ -17,9 +17,9 @@ public class RegisterDependencyCommandInjectableCommandTests_18task : IDisposabl
     {
         new RegisterDependencyCommandInjectableCommand().Execute();
 
-        var asICommand = IoC.Resolve<ICommand>("Commands.CommandInjectable");
-        var asICommandInjectable = IoC.Resolve<ICommandInjectable>("Commands.CommandInjectable");
-        var asConcreteType = IoC.Resolve<CommandInjectableCommand>("Commands.CommandInjectable");
+        var asICommand = Ioc.Resolve<ICommand>("Commands.CommandInjectable");
+        var asICommandInjectable = Ioc.Resolve<ICommandInjectable>("Commands.CommandInjectable");
+        var asConcreteType = Ioc.Resolve<CommandInjectableCommand>("Commands.CommandInjectable");
 
         Assert.NotNull(asICommand);
         Assert.NotNull(asICommandInjectable);
