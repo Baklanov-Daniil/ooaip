@@ -160,5 +160,29 @@ public class UnitTest1
         #pragma warning disable CS8604
         Assert.True(v1 == v2);
         #pragma warning restore CS8604
-}
+    }
+    [Fact]
+    public void AngleEqualsReturnsFalseForNullAndDifferentType()
+    {
+        var angle = new Angle(1);
+        Assert.False(angle.Equals(null));
+    }
+
+    [Fact]
+    public void AngleEqualsReturnsFalseForNonAngleObject()
+    {
+        var angle = new Angle(1);
+        object notAnAngle = "это строка, а не угол";
+        
+        Assert.False(angle.Equals(notAnAngle));
+    }
+
+    [Fact]
+    public void AngleImplicitConversionToDouble()
+    {
+        var angle = new Angle(2);
+        double radians = angle;
+        double expected = 2.0 / Angle.denominator * 2 * Math.PI;
+        Assert.Equal(expected, radians, 10);
+    }
 }
