@@ -1,4 +1,6 @@
 using Xunit;
+using SpaceBattle.Lib;
+namespace SpaceBattle.Lib.Tests;
 
 public class CommandInjectableTests
 {
