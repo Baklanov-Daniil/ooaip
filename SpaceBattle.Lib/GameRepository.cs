@@ -1,4 +1,5 @@
 using App;
+using System.Collections.Concurrent;
 
 namespace SpaceBattle.Lib
 {
@@ -6,38 +7,40 @@ namespace SpaceBattle.Lib
     {
         public void Execute()
         {
-            var gameItems = new Dictionary<string, object>();
-            
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Get", (object[] args) =>
-                {
-                    var key = (string)args[0];
-                    return gameItems[(string)args[0]];
-                }).Execute();
+            var gameItems = new ConcurrentDictionary<string, object>();
 
-            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Remove", (object[] args) =>
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Get", (object[] args) =>
+            {
+                var key = (string)args[0];
+                
+                if (gameItems.TryGetValue(key, out var item))
                 {
-                    var key = (string)args[0];
-                    return new DelegateCommand(() =>
-                    {
-                        if (gameItems.ContainsKey(key))
-                        {
-                            gameItems.Remove(key);
-                        }
-                    });
-                }).Execute();
+                    return item;
+                }
+                
+                throw new KeyNotFoundException($"Game item '{key}' not found.");
+            }).Execute();
 
             Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Add", (object[] args) =>
+            {
+                var key = (string)args[0];
+                var value = args[1];
+                
+                return new DelegateCommand(() =>
                 {
-                    var key = (string)args[0];
-                    var value = args[1];
-                    return new DelegateCommand(() =>
-                    {
-                        if (!gameItems.ContainsKey(key))
-                        {
-                            gameItems.Add(key, value);
-                        }
-                    });
-                }).Execute();
+                    gameItems.TryAdd(key, value);
+                });
+            }).Execute();
+
+            Ioc.Resolve<App.ICommand>("IoC.Register", "Game.Item.Remove", (object[] args) =>
+            {
+                var key = (string)args[0];
+                
+                return new DelegateCommand(() =>
+                {
+                    gameItems.TryRemove(key, out _);
+                });
+            }).Execute();
         }
     }
 }
