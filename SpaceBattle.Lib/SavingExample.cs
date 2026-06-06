@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using App;
 namespace SpaceBattle.Lib;
 
-class SavingExample
+public class SavingExample
 {
-    static void Generate(string filename, Func<int, int, int, int, bool> collisionFn)
+    public static void Generate(string filename, Func<int, int, int, int, bool> collisionFn)
     {
         int collisions = 0;
         int total = 0;
@@ -30,7 +30,7 @@ class SavingExample
         Console.WriteLine($"Collisions: {collisions}");
     }
 
-    static void Main()
+    public static void Main()
     {
         Generate("collision_circle_circle.txt", CollisionMath.CollideCircleCircle);
         Generate("collision_circle_rectangle.txt", CollisionMath.CollideCircleRectangle);
