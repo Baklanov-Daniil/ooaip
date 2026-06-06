@@ -51,3 +51,4 @@ public class CollisionTests
         Assert.Equal(2.0, dist, precision: 5);
     }
 }
+
