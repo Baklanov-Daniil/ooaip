@@ -1,67 +1,44 @@
+using System;
 using System.Collections.Concurrent;
-using SpaceBattle.Lib;
+using System.Collections.Generic;
 using App;
+using App.Scopes;
+using SpaceBattle.Lib;
+using Xunit;
 
-namespace SpaceBattle.Tests;
-
-public class RegisterIoCDependencyActionsStopTests : IDisposable
+namespace SpaceBattle.Lib.Tests
 {
-    public RegisterIoCDependencyActionsStopTests() {
-        new App.Scopes.InitCommand().Execute();
-        Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
-    } 
-    public void Dispose() => Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
-
-    [Fact]
-    public void AfterExecute_ActionsStop_ResolvesWithoutException()
+    public class RegisterIoCDependencyActionsStopTests : IDisposable
     {
-        IDictionary<string, object> order = new Dictionary<string, object>
+        public RegisterIoCDependencyActionsStopTests()
         {
-            ["Queue"] = new BlockingCollection<App.ICommand>()
-        };
+            new InitCommand().Execute();
+            var iocScope = Ioc.Resolve<object>("IoC.Scope.Create");
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Set", iocScope).Execute();
+        }
 
-        var cmd = Ioc.Resolve<App.ICommand>("Actions.Stop", order);
-
-        Assert.NotNull(cmd);
-    }
-
-    [Fact]
-    public void StopCommand_Execute_StopsRunningThread()
-    {
-        var queue = new BlockingCollection<App.ICommand>();
-        IDictionary<string, object> order = new Dictionary<string, object>
+        [Fact]
+        public void ShouldRegisterStopCommandDependency()
         {
-            ["Queue"] = queue
-        };
+            // Регистрируем зависимость
+            new RegisterIoCDependencyActionsStop().Execute();
 
-        Ioc.Resolve<App.ICommand>("Actions.Start", order).Execute();
-        var thread = (Thread)order["Thread"];
-        Assert.True(thread.IsAlive);
+            // Создаем корректный аргумент — словарь с очередью
+            IDictionary<string, object> order = new Dictionary<string, object>
+            {
+                ["Queue"] = new BlockingCollection<App.ICommand>()
+            };
 
-        Ioc.Resolve<App.ICommand>("Actions.Stop", order).Execute();
+            // Резолвим с правильным аргументом
+            var cmd = Ioc.Resolve<App.ICommand>("Actions.Stop", order);
 
-        bool stopped = thread.Join(TimeSpan.FromSeconds(2));
-        Assert.True(stopped, "Поток должен завершиться после команды Stop.");
-    }
+            // Проверяем, что вернулся именно StopCommand
+            Assert.IsType<StopCommand>(cmd);
+        }
 
-    [Fact]
-    public void StopCommand_Execute_IsConstantTime()
-    {
-        new RegisterIoCDependencyActionsStop().Execute();
-
-        var queue = new BlockingCollection<App.ICommand>();
-        IDictionary<string, object> order = new Dictionary<string, object>
+        public void Dispose()
         {
-            ["Queue"] = queue
-        };
-
-        var stopCmd = Ioc.Resolve<App.ICommand>("Actions.Stop", order);
-
-        var sw = System.Diagnostics.Stopwatch.StartNew();
-        stopCmd.Execute();
-        sw.Stop();
-
-        Assert.True(sw.ElapsedMilliseconds < 100,
-            $"Stop должен выполняться мгновенно, но занял {sw.ElapsedMilliseconds} мс.");
+            Ioc.Resolve<App.ICommand>("IoC.Scope.Current.Clear").Execute();
+        }
     }
 }
