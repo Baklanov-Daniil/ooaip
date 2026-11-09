@@ -22,8 +22,8 @@ namespace SpaceBattle.Lib.Tests
             new RegisterFireDependencies().Execute();
 
             // Assert — резолвим с корректными аргументами
-            var position = new Vectors(new[] { 0, 0 });
-            var direction = new Vectors(new[] { 1, 1 });
+            var position = new Vector(new[] { 0, 0 });
+            var direction = new Vector(new[] { 1, 1 });
             const double speed = 1.0;
 
             var cmd = Ioc.Resolve<ICommand>(
@@ -42,8 +42,8 @@ namespace SpaceBattle.Lib.Tests
             // Arrange
             new RegisterFireDependencies().Execute();
 
-            var position = new Vectors(new[] { 5, 10 });
-            var direction = new Vectors(new[] { 3, 4 });
+            var position = new Vector(new[] { 5, 10 });
+            var direction = new Vector(new[] { 3, 4 });
             const double speed = 2.5;
 
             // Act

@@ -8,13 +8,13 @@ namespace SpaceBattle.Lib.Tests
         {
             var ship = new Mock<IMoving>();
 
-            ship.SetupGet(a => a.Position).Returns(new Vectors(new int[] { 12, 5 }));
-            ship.SetupGet(a => a.Velocity).Returns(new Vectors(new int[] { -4, 1 }));
+            ship.SetupGet(a => a.Position).Returns(new Vector(new int[] { 12, 5 }));
+            ship.SetupGet(a => a.Velocity).Returns(new Vector(new int[] { -4, 1 }));
 
             var command = new MoveCommand(ship.Object);
             command.Execute();
 
-            ship.VerifySet(a => a.Position = new Vectors(new int[] { 8, 6 }));
+            ship.VerifySet(a => a.Position = new Vector(new int[] { 8, 6 }));
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace SpaceBattle.Lib.Tests
         {
             var ship = new Mock<IMoving>();
 
-            ship.SetupGet(a => a.Position).Returns(new Vectors(new int[] { 12, 5 }));
+            ship.SetupGet(a => a.Position).Returns(new Vector(new int[] { 12, 5 }));
             ship.SetupGet(a => a.Velocity).Throws<InvalidOperationException>();
 
             var command = new MoveCommand(ship.Object);
@@ -46,10 +46,10 @@ namespace SpaceBattle.Lib.Tests
         {
             var ship = new Mock<IMoving>();
 
-            ship.SetupGet(a => a.Position).Returns(new Vectors(new int[] { 12, 5 }));
-            ship.SetupGet(a => a.Velocity).Returns(new Vectors(new int[] { -7, 3 }));
+            ship.SetupGet(a => a.Position).Returns(new Vector(new int[] { 12, 5 }));
+            ship.SetupGet(a => a.Velocity).Returns(new Vector(new int[] { -7, 3 }));
 
-            ship.SetupSet(a => a.Position = new Vectors(new int[] { 5, 8 })).Throws<InvalidOperationException>();
+            ship.SetupSet(a => a.Position = new Vector(new int[] { 5, 8 })).Throws<InvalidOperationException>();
 
             var command = new MoveCommand(ship.Object);
 

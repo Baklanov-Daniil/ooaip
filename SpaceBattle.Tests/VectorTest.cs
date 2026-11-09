@@ -12,10 +12,10 @@ public class UnitTest1
     public void SuccessedMoveToOrigin()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, -1, 2});
-        Vectors vector2 = new Vectors(new int[]{-1, 1, -2});
+        Vector vector1 = new Vector(new int[]{1, -1, 2});
+        Vector vector2 = new Vector(new int[]{-1, 1, -2});
 
-        Vectors result = vector1 + vector2;
+        Vector result = vector1 + vector2;
 
         Assert.Equal(vector1.dimension, result.dimension);
         Assert.Equal(result.coords, new int[]{0, 0, 0});
@@ -25,8 +25,8 @@ public class UnitTest1
     public void ArgumentException_1()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2, 3});
-        Vectors vector2 = new Vectors(new int[]{1, 2});
+        Vector vector1 = new Vector(new int[]{1, 2, 3});
+        Vector vector2 = new Vector(new int[]{1, 2});
 
         Assert.Throws<ArgumentException>(() => vector1 + vector2);
         Assert.Throws<ArgumentException>(() => vector2 + vector1);
@@ -36,8 +36,8 @@ public class UnitTest1
     public void ArgumentException_2()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2});
-        Vectors vector2 = new Vectors(new int[]{1, 2, 3});
+        Vector vector1 = new Vector(new int[]{1, 2});
+        Vector vector2 = new Vector(new int[]{1, 2, 3});
 
         Assert.Throws<ArgumentException>(() => vector1 + vector2);
         Assert.Throws<ArgumentException>(() => vector2 + vector1);
@@ -47,8 +47,8 @@ public class UnitTest1
     public void TwoObjectsSameCoord1()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2, 3});
-        Vectors vector2 = new Vectors(new int[]{1, 2, 3});
+        Vector vector1 = new Vector(new int[]{1, 2, 3});
+        Vector vector2 = new Vector(new int[]{1, 2, 3});
 
         bool result = vector1.Equals(vector2);
 
@@ -60,8 +60,8 @@ public class UnitTest1
     public void TwoObjectsSameCoord2()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2, 3});
-        Vectors vector2 = new Vectors(new int[]{1, 2, 3});
+        Vector vector1 = new Vector(new int[]{1, 2, 3});
+        Vector vector2 = new Vector(new int[]{1, 2, 3});
 
         Assert.True(vector1 == vector2);
 
@@ -71,8 +71,8 @@ public class UnitTest1
     public void TwoObjectsDifferentCoord1()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2, 3});
-        Vectors vector2 = new Vectors(new int[]{3, 2, 1});
+        Vector vector1 = new Vector(new int[]{1, 2, 3});
+        Vector vector2 = new Vector(new int[]{3, 2, 1});
 
         bool result = vector1.Equals(vector2);
 
@@ -83,8 +83,8 @@ public class UnitTest1
     public void TwoObjectsDifferentCoord2()
     {
         // AAA
-        Vectors vector1 = new Vectors(new int[]{1, 2, 3});
-        Vectors vector2 = new Vectors(new int[]{3, 2, 1});
+        Vector vector1 = new Vector(new int[]{1, 2, 3});
+        Vector vector2 = new Vector(new int[]{3, 2, 1});
 
         Assert.True(vector1 != vector2);
     }
@@ -93,36 +93,36 @@ public class UnitTest1
     public void IsVecrottContainsHashCode()
     {
         // AAA
-        Vectors vector = new Vectors(new int[]{1,2,3});
+        Vector vector = new Vector(new int[]{1,2,3});
 
         int hash = vector.GetHashCode();
         Assert.NotEqual(0, hash);
     }
 
     [Fact]
-    public void VectorsConstructorThrowsArgumentExceptionWhenCoordsIsEmpty()
+    public void VectorConstructorThrowsArgumentExceptionWhenCoordsIsEmpty()
     {
 
-        Assert.Throws<ArgumentException>(() => new Vectors(new int[] { }));
+        Assert.Throws<ArgumentException>(() => new Vector(new int[] { }));
     }
 
     [Fact]
-    public void VectorsEqualsReturnsFalseWhenObjectIsNotVectors()
+    public void VectorEqualsReturnsFalseWhenObjectIsNotVector()
     {
-        var v = new Vectors(new int[] { 1, 2 });
+        var v = new Vector(new int[] { 1, 2 });
 
         Assert.False(v.Equals("строка вместо вектора"));
     }
     [Fact]
-    public void Vectors_Constructor_ThrowsException_WhenCoordsIsNull()
+    public void Vector_Constructor_ThrowsException_WhenCoordsIsNull()
     {
-        Assert.Throws<ArgumentNullException>(() => new Vectors(null!));
+        Assert.Throws<ArgumentNullException>(() => new Vector(null!));
     }
 
     [Fact]
-    public void VectorsOperatorEqualsReturnsTrueForSameReference()
+    public void VectorOperatorEqualsReturnsTrueForSameReference()
     {
-        var vector = new Vectors(new int[] { 1, 2, 3 });
+        var vector = new Vector(new int[] { 1, 2, 3 });
         
         #pragma warning disable CS1718
         Assert.True(vector == vector);
@@ -130,10 +130,10 @@ public class UnitTest1
     }
 
     [Fact]
-    public void VectorsOperatorEquals_FirstOperandNull()
+    public void VectorOperatorEquals_FirstOperandNull()
     {
-        Vectors? v1 = null;
-        Vectors? v2 = new Vectors(new int[] { 1, 2, 3 });
+        Vector? v1 = null;
+        Vector? v2 = new Vector(new int[] { 1, 2, 3 });
         
         #pragma warning disable CS8604
         Assert.False(v1 == v2);
@@ -141,10 +141,10 @@ public class UnitTest1
     }
 
     [Fact]
-    public void VectorsOperatorEquals_SecondOperandNull()
+    public void VectorOperatorEquals_SecondOperandNull()
     {
-        Vectors? v1 = new Vectors(new int[] { 1, 2, 3 });
-        Vectors? v2 = null;
+        Vector? v1 = new Vector(new int[] { 1, 2, 3 });
+        Vector? v2 = null;
         
         #pragma warning disable CS8604
         Assert.False(v1 == v2);
@@ -152,10 +152,10 @@ public class UnitTest1
     }
 
     [Fact]
-    public void VectorsOperatorEquals_BothNull()
+    public void VectorOperatorEquals_BothNull()
     {
-        Vectors? v1 = null;
-        Vectors? v2 = null;
+        Vector? v1 = null;
+        Vector? v2 = null;
         
         #pragma warning disable CS8604
         Assert.True(v1 == v2);

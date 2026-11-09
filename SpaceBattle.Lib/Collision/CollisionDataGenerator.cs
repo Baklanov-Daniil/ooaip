@@ -22,11 +22,11 @@ namespace SpaceBattle.Lib
 
             var object1Shape = objectsDict[object1];
             var object2Shape = objectsDict[object2];
-            var collisionVectors = new List<int[]>();
+            var collisionVector = new List<int[]>();
             var maxtriesCount = Ioc.Resolve<int>("CollisionGenerator.MaxTries");
             var tryCount = 0;
 
-            while (collisionVectors.Count < dataSize && tryCount < maxtriesCount)
+            while (collisionVector.Count < dataSize && tryCount < maxtriesCount)
             {
                 var offsetPoint = GeneratePoint(fieldSize);
                 var velocity = GeneratePoint(fieldSize / 5);
@@ -38,7 +38,7 @@ namespace SpaceBattle.Lib
                 if (collisions.Count > 0)
                 {
                     var intersectionPoint = collisions[0];
-                    collisionVectors.Add(new int[]
+                    collisionVector.Add(new int[]
                     {
                         (int)intersectionPoint.X,
                         (int)intersectionPoint.Y,
@@ -50,7 +50,7 @@ namespace SpaceBattle.Lib
                 tryCount++;
             }
 
-            return collisionVectors;
+            return collisionVector;
         }
 
         public Point GeneratePoint(int range)

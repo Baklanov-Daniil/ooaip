@@ -24,10 +24,10 @@ namespace SpaceBattle.Lib.Tests
             Ioc.Resolve<App.ICommand>("IoC.Register", "Actions.Start", (object[] args) => startMock.Object).Execute();
 
 
-            var position = new Vectors(new[] { 0, 0 });
-            var fireDirection = new Vectors(new[] { 2, 1 });
+            var position = new Vector(new[] { 0, 0 });
+            var fireDirection = new Vector(new[] { 2, 1 });
             var speed = 2.0;
-            var velocity = new Vectors(new[] { (int)(2 * speed), (int)(1 * speed) });
+            var velocity = new Vector(new[] { (int)(2 * speed), (int)(1 * speed) });
 
             var cmdMock = new Mock<App.ICommand>();
             var universalCommandToken = cmdMock.As<SpaceBattle.Lib.ICommand>().Object;
@@ -50,7 +50,7 @@ namespace SpaceBattle.Lib.Tests
             Ioc.Resolve<App.ICommand>("IoC.Register", "Weapon.Setup", (object[] args) =>
             {
                 var weapon = (IMoving)args[0];
-                weapon.Position = (Vectors)args[1];
+                weapon.Position = (Vector)args[1];
                 return universalCommandToken; 
             }).Execute();
 
@@ -68,8 +68,8 @@ namespace SpaceBattle.Lib.Tests
 
             Ioc.Resolve<App.ICommand>("IoC.Register", "Commands.Fire", (object[] args) => 
                 new FireCommand(
-                    (Vectors)args[0], 
-                    (Vectors)args[1], 
+                    (Vector)args[0], 
+                    (Vector)args[1], 
                     Convert.ToDouble(args[2])
                 )
             ).Execute();

@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace SpaceBattle.Lib;
 
-public class Vectors
+public class Vector
 {
     public int[] coords { get; }
     public int dimension => coords.Length;
 
-    public Vectors(int[] coords)
+    public Vector(int[] coords)
     {
         if (coords == null)
         {
@@ -22,7 +22,7 @@ public class Vectors
         this.coords = coords;     
     }
 
-   public static Vectors operator +(Vectors vec1, Vectors vec2)
+   public static Vector operator +(Vector vec1, Vector vec2)
     {
         if (vec1.dimension != vec2.dimension)
         {
@@ -36,19 +36,19 @@ public class Vectors
             {
                 result[i] = vec1.coords[i] + vec2.coords[i];
             }
-            return new Vectors(result);
+            return new Vector(result);
         }
         
     }
     public override bool Equals(object? obj)
     {
-        if (obj is not Vectors other)
+        if (obj is not Vector other)
             return false;
 
         return coords.SequenceEqual(other.coords);
     }
 
-    public static bool operator ==(Vectors vec1, Vectors vec2)
+    public static bool operator ==(Vector vec1, Vector vec2)
     {
         if (ReferenceEquals(vec1, vec2))
             return true;
@@ -59,7 +59,7 @@ public class Vectors
         return vec1.coords.SequenceEqual(vec2.coords);
     }
 
-    public static bool operator !=(Vectors vec1, Vectors vec2)
+    public static bool operator !=(Vector vec1, Vector vec2)
     {
         return !(vec1 == vec2);
     }

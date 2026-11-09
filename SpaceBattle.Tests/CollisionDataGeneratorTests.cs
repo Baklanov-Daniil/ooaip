@@ -13,7 +13,7 @@ namespace SpaceBattle.Lib.Tests
         }
 
         [Fact]
-        public void GenerateCollisionDataWithCollisionsReturnsVectors()
+        public void GenerateCollisionDataWithCollisionsReturnsVector()
         {
             var object1 = "ship1";
             var object2 = "ship2";
@@ -37,12 +37,12 @@ namespace SpaceBattle.Lib.Tests
 
             var generator = new CollisionDataGenerator(object1, object2);
 
-            var collisionVectors = generator.GenerateCollisionData();
+            var collisionVector = generator.GenerateCollisionData();
 
-            Assert.Single(collisionVectors);
-            Assert.Equal(4, collisionVectors[0].Length);
-            Assert.InRange(collisionVectors[0][2], -20, 20);
-            Assert.InRange(collisionVectors[0][3], -20, 20);
+            Assert.Single(collisionVector);
+            Assert.Equal(4, collisionVector[0].Length);
+            Assert.InRange(collisionVector[0][2], -20, 20);
+            Assert.InRange(collisionVector[0][3], -20, 20);
         }
 
         [Fact]
@@ -70,9 +70,9 @@ namespace SpaceBattle.Lib.Tests
 
             var generator = new CollisionDataGenerator(object1, object2);
 
-            var collisionVectors = generator.GenerateCollisionData();
+            var collisionVector = generator.GenerateCollisionData();
 
-            Assert.Empty(collisionVectors);
+            Assert.Empty(collisionVector);
         }
 
         [Fact]
@@ -112,9 +112,9 @@ namespace SpaceBattle.Lib.Tests
 
             var generator = new CollisionDataGenerator(object1, object2);
 
-            var collisionVectors = generator.GenerateCollisionData();
+            var collisionVector = generator.GenerateCollisionData();
 
-            Assert.Empty(collisionVectors);
+            Assert.Empty(collisionVector);
         }
 
         public void Dispose()

@@ -4,10 +4,10 @@ namespace SpaceBattle.Lib
 {
     public class FireCommand : ICommand
     {
-        private readonly Vectors _position;
-        private readonly Vectors _fireDirection;
+        private readonly Vector _position;
+        private readonly Vector _fireDirection;
         private readonly double _speed;
-        public FireCommand(Vectors position, Vectors fireDirection, double speed = 1.0)
+        public FireCommand(Vector position, Vector fireDirection, double speed = 1.0)
         {
             _position = position;
             _fireDirection = fireDirection;
