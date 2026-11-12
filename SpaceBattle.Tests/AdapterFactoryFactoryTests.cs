@@ -53,3 +53,4 @@ public class AdapterFactoryFactoryTests
         Assert.Equal(10, otherAdapter.Position);
     }
 }
+

@@ -29,3 +29,4 @@ public class AdapterBuilderTestTest
         Assert.True(adapterBuilder.Build() == imovableAdapter);
     }
 }
+

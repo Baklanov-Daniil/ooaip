@@ -41,3 +41,4 @@ public class AdapterBuilder : IBuilder
         return _template.Render(new { type2 = _type2.Name, type1 = _type1.Name, props = _props});
     }
 }
+
