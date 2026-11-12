@@ -5,9 +5,9 @@ namespace SpaceBattle.Lib;
 public sealed class AdapterFactoryFactory
 {
     private readonly Dictionary<Type, Func<object, object>> _factories = new();
-    private readonly Dictionary<string, Func<object[], object?>> _strategies = new();
+    private readonly Dictionary<string, Func<object?[], object?>> _strategies = new();
 
-    public void RegisterStrategy(Type interfaceType, string propertyName, Func<object[], object?> strategy)
+    public void RegisterStrategy(Type interfaceType, string propertyName, Func<object?[], object?> strategy)
     {
         ArgumentNullException.ThrowIfNull(interfaceType);
         ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
@@ -41,9 +41,9 @@ public sealed class AdapterFactoryFactory
 
     private sealed class RuntimeAdapterFactory<TInterface> where TInterface : class
     {
-        private readonly Dictionary<string, Func<object[], object?>> _strategies;
+        private readonly Dictionary<string, Func<object?[], object?>> _strategies;
 
-        public RuntimeAdapterFactory(Dictionary<string, Func<object[], object?>> strategies)
+        public RuntimeAdapterFactory(Dictionary<string, Func<object?[], object?>> strategies)
         {
             _strategies = strategies;
         }
@@ -60,9 +60,9 @@ public sealed class AdapterFactoryFactory
     public class RuntimeAdapterProxy : DispatchProxy
     {
         private object _item = null!;
-        private Dictionary<string, Func<object[], object?>> _strategies = null!;
+        private Dictionary<string, Func<object?[], object?>> _strategies = null!;
 
-        public void Initialize(object item, Dictionary<string, Func<object[], object?>> strategies)
+        public void Initialize(object item, Dictionary<string, Func<object?[], object?>> strategies)
         {
             _item = item;
             _strategies = strategies;
@@ -108,4 +108,5 @@ public sealed class AdapterFactoryFactory
         }
     }
 }
+
 
