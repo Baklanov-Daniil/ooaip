@@ -28,8 +28,7 @@ public sealed class AdapterFactoryFactory
             return factory;
 
         var factoryType = typeof(RuntimeAdapterFactory<>).MakeGenericType(interfaceType);
-        var instance = Activator.CreateInstance(factoryType, _strategies)
-            ?? throw new InvalidOperationException($"Could not create adapter factory for {interfaceType}.");
+        var instance = Activator.CreateInstance(factoryType, _strategies)!;
         factory = (Func<object, object>)factoryType.GetMethod(nameof(RuntimeAdapterFactory<object>.Create))!
             .CreateDelegate(typeof(Func<object, object>), instance);
         _factories.Add(interfaceType, factory);
@@ -72,12 +71,13 @@ public sealed class AdapterFactoryFactory
         {
             ArgumentNullException.ThrowIfNull(targetMethod);
             args ??= Array.Empty<object?>();
-            var property = targetMethod.DeclaringType?.GetProperties()
+            var declaringType = targetMethod.DeclaringType!;
+            var property = declaringType.GetProperties()
                 .FirstOrDefault(p => p.GetMethod == targetMethod || p.SetMethod == targetMethod);
 
             if (property is not null)
             {
-                var key = GetStrategyKey(targetMethod.DeclaringType!, property.Name);
+                var key = GetStrategyKey(declaringType, property.Name);
                 if (_strategies.TryGetValue(key, out var strategy))
                     return strategy(new object[] { _item }.Concat(args).ToArray());
 
@@ -108,5 +108,4 @@ public sealed class AdapterFactoryFactory
         }
     }
 }
-
 
