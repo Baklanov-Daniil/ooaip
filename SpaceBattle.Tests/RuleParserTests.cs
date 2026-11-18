@@ -52,4 +52,18 @@ public class RuleParserTests
         Assert.Throws<FileNotFoundException>(() => parser.ParseFile(Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".txt")));
     }
 
+    [Fact]
+    public void ParserParsesMultipleLinesFromFile()
+    {
+        var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".txt");
+        File.WriteAllText(path, "player1 SPAWN Spaceship [1, 1]\nplayer2 SPAWN Spaceship [2, 2]\nSpaceship CAN MoveForward\n");
+        var parser = new TextRuleParser();
+        var rules = parser.ParseFile(path);
+
+        Assert.Equal(3, rules.Count);
+        Assert.Equal("SPAWN", rules[0].Verb);
+        Assert.Equal("SPAWN", rules[1].Verb);
+        Assert.Equal("CAN", rules[2].Verb);
+    }
+
 }
