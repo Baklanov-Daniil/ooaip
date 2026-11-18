@@ -1,8 +1,5 @@
-# Основные правила игры (формат: имя=значение)
-# Начальные ресурсы игрока
-resource.max=5
-# Условие победы
-victory.condition=destroy_all
-# Коэффициенты игрового баланса
-damage.multiplier=1
-movement.multiplier=1
+player1 SPAWN Spaceship [1, 1]
+player2 SPAWN Spaceship [2, 2]
+Spaceship CAN MoveForward, Rotate, Fire
+MoveForward INCLUDE Move
+MoveForward INCLUDE BurnFuel
