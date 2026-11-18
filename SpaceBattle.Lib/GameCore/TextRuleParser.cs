@@ -25,7 +25,7 @@ public sealed class TextRuleParser : IRuleParser
                 throw new RuleParseException($"Invalid rule syntax at line {lineNumber}; expected '<entity> <VERB> <args>'.");
             var verb = tokens[1];
             var args = new[] { tokens[0] }.Concat(tokens.Skip(2)).ToArray();
-            rules.Add(new ParsedRule(verb, args, content));
+            rules.Add(new ParsedRule(verb, args));
         }
         return rules.AsReadOnly();
     }

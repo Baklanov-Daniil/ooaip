@@ -4,13 +4,11 @@ public sealed class ParsedRule
 {
     public string Verb { get; }
     public string[] Args { get; }
-    public string RawLine { get; }
 
-    public ParsedRule(string verb, string[] args, string rawLine)
+    public ParsedRule(string verb, string[] args)
     {
         Verb = verb;
         Args = args;
-        RawLine = rawLine;
     }
 }
 
