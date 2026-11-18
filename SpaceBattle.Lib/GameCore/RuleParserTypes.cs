@@ -14,12 +14,6 @@ public sealed class ParsedRule
     }
 }
 
-public interface IRuleParser
-{
-    IReadOnlyList<ParsedRule> ParseFile(string path);
-    IReadOnlyList<ParsedRule> Parse(TextReader reader);
-}
-
 public sealed class RuleParseException : Exception
 {
     public RuleParseException(string message) : base(message) { }
