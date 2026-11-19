@@ -5,72 +5,67 @@ namespace SpaceBattle.Lib;
 
 public class Vector
 {
-    public int[] coords { get; }
-    public int dimension => coords.Length;
-
-    public Vector(int[] coords)
+    private int[] nums;
+    public int Size
     {
-        if (coords == null)
-        {
-            throw new ArgumentNullException(nameof(coords), "координаты не инициализированы!");
-        }
-                if (coords.Length == 0)
-        {
-            throw new ArgumentException("координаты не могут быть пустыми!");
-        }
-
-        this.coords = coords;     
+        get => this.nums.Length;
+    }
+    public Vector(params int[] nums)
+    {
+        this.nums = nums;
+    }
+    public override string ToString()
+    {
+        return $"({string.Join(", ", this.nums)})";
+    }
+    public int this[int key]
+    {
+        get => this.nums[key];
+        set => this.nums[key] = value;
     }
 
-   public static Vector operator +(Vector vec1, Vector vec2)
+    public static Vector operator +(Vector v1, Vector v2)
     {
-        if (vec1.dimension != vec2.dimension)
+        if (v1.Size != v2.Size)
         {
-             throw new ArgumentException("размерности должны совпадать!");
+            throw new System.ArgumentException();
+        }
+        int[] vn = new int[v1.Size];
+        for (int i = 0; i < v1.Size; i++)
+        {
+            vn[i] = v1[i] + v2[i];
+        }
+        return new Vector(vn);
+    }
+    public static bool operator ==(Vector v1, Vector v2)
+    {
+        if (v1 is null || v2 is null)
+        {
+            return v1 is null && v2 is null;
         }
 
-        else
+        if (v1.Size != v2.Size)
         {
-            int[] result = new int[vec1.dimension];
-            for(int i = 0; i < vec1.dimension; i++)
-            {
-                result[i] = vec1.coords[i] + vec2.coords[i];
-            }
-            return new Vector(result);
+            return false;
         }
-        
+        for (int i = 0; i < v1.Size; i++)
+        {
+            if (v1[i] != v2[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static bool operator !=(Vector v1, Vector v2)
+    {
+        return !(v1 == v2);
     }
     public override bool Equals(object? obj)
     {
-        if (obj is not Vector other)
-            return false;
-
-        return coords.SequenceEqual(other.coords);
+        return obj is Vector v && nums.SequenceEqual(v.nums);
     }
 
-    public static bool operator ==(Vector vec1, Vector vec2)
-    {
-        if (ReferenceEquals(vec1, vec2))
-            return true;
-
-        if (vec1 is null || vec2 is null) return false;
-            
-
-        return vec1.coords.SequenceEqual(vec2.coords);
-    }
-
-    public static bool operator !=(Vector vec1, Vector vec2)
-    {
-        return !(vec1 == vec2);
-    }
-
-    public override int GetHashCode()
-    {
-        HashCode hash = new HashCode();
-        foreach (var coord in coords)
-        {
-            hash.Add(coord);
-        }
-        return hash.ToHashCode();
-    }
-};
+    public override int GetHashCode() =>
+       nums.Aggregate(0, (total, next) => HashCode.Combine(total, next));
+}
