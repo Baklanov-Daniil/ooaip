@@ -24,10 +24,10 @@ namespace SpaceBattle.Lib.Tests
             Ioc.Resolve<App.ICommand>("IoC.Register", "Actions.Start", (object[] args) => startMock.Object).Execute();
 
 
-            var position = new Vector(new[] { 0, 0 });
-            var fireDirection = new Vector(new[] { 2, 1 });
+            var position = new Vector(0, 0);
+            var fireDirection = new Vector(2, 1);
             var speed = 2.0;
-            var velocity = new Vector(new[] { (int)(2 * speed), (int)(1 * speed) });
+            var velocity = new Vector((int)(2 * speed), (int)(1 * speed));
 
             var cmdMock = new Mock<App.ICommand>();
             var universalCommandToken = cmdMock.As<SpaceBattle.Lib.ICommand>().Object;
