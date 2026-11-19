@@ -1,0 +1,6 @@
+player1 SPAWN Spaceship [1, 1]
+player2 SPAWN Spaceship [2, 2]
+Spaceship CAN MoveForward, Rotate, Fire
+Meteor CAN MoveForward
+Spaceship ACTION MoveForward INCLUDE Move, BurnFuel
+Meteor ACTION MoveForward INCLUDE Move
