@@ -27,14 +27,14 @@ public class RuleParserTests
     }
 
     [Fact]
-    public void ParserCreatesRulesFromIncludeLines()
+    public void ParserCreatesRulesFromActionLines()
     {
         var parser = new TextRuleParser();
-        var rules = parser.Parse(new StringReader("MoveForward INCLUDE Move\n"));
+        var rules = parser.Parse(new StringReader("Spaceship ACTION MoveForward INCLUDE Move, BurnFuel\n"));
 
         Assert.Single(rules);
-        Assert.Equal("INCLUDE", rules[0].Verb);
-        Assert.Equal(["MoveForward", "Move"], rules[0].Args);
+        Assert.Equal("ACTION", rules[0].Verb);
+        Assert.Equal(["Spaceship", "MoveForward", "INCLUDE", "Move", "BurnFuel"], rules[0].Args);
     }
 
     [Fact]
@@ -53,17 +53,19 @@ public class RuleParserTests
     }
 
     [Fact]
-    public void ParserParsesMultipleLinesFromFile()
+    public void ParserParsesRulesFromGameRulesFile()
     {
-        var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".txt");
-        File.WriteAllText(path, "player1 SPAWN Spaceship [1, 1]\nplayer2 SPAWN Spaceship [2, 2]\nSpaceship CAN MoveForward\n");
+        var path = Path.Combine(AppContext.BaseDirectory, "game-rules.txt");
         var parser = new TextRuleParser();
         var rules = parser.ParseFile(path);
 
-        Assert.Equal(3, rules.Count);
+        Assert.Equal(6, rules.Count);
         Assert.Equal("SPAWN", rules[0].Verb);
         Assert.Equal("SPAWN", rules[1].Verb);
         Assert.Equal("CAN", rules[2].Verb);
+        Assert.Equal("CAN", rules[3].Verb);
+        Assert.Equal("ACTION", rules[4].Verb);
+        Assert.Equal(["Meteor", "MoveForward", "INCLUDE", "Move"], rules[5].Args);
     }
 
 }

@@ -1,5 +1,0 @@
-player1 SPAWN Spaceship [1, 1]
-player2 SPAWN Spaceship [2, 2]
-Spaceship CAN MoveForward, Rotate, Fire
-MoveForward INCLUDE Move
-MoveForward INCLUDE BurnFuel
