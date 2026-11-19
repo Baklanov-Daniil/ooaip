@@ -1,47 +1,56 @@
+using System.Formats.Asn1;
+using System.Threading.Channels;
 namespace SpaceBattle.Lib;
 
 public class Angle
 {
-    private int numerator;
-    private int denominator;
-    public Angle(int n, int d)
+    public static readonly int denominator = 8;
+    public int numenator { get; }
+
+    public Angle(int n)
     {
-        this.numerator = n;
-        this.denominator = d;
-        if (d == 0)
-        {
-            throw new System.ArgumentException();
-        }
+        numenator = (n % denominator + denominator) % denominator;
     }
-    public override string ToString()
-    {
-        return $"{this.numerator} / {this.denominator}";
-    }
-    private static int GCD(int a, int b)
-    {
-        return b == 0 ? a : GCD(b, a % b);
-    }
+
     public static Angle operator +(Angle a1, Angle a2)
     {
-        int y3 = GCD(a1.numerator * a2.denominator + a2.numerator * a1.denominator, a1.denominator * a2.denominator);
-        return new Angle((a1.numerator * a2.denominator + a2.numerator * a1.denominator) / y3, a1.denominator * a2.denominator / y3);
+        int result = a1.numenator + a2.numenator;
+        return new Angle(result);
     }
+
+    public static implicit operator double(Angle angle)
+    {
+        return (double)angle.numenator / denominator * 2 * Math.PI;
+    }
+
     public static bool operator ==(Angle a1, Angle a2)
     {
-        return !(a1.numerator != a2.numerator || a1.denominator != a2.denominator);
+        if (a1.numenator != a2.numenator) return false;
+
+        return true;
     }
+
     public static bool operator !=(Angle a1, Angle a2)
     {
-        return !(a1 == a2);
+        if (a1.numenator == a2.numenator) return false;
+
+        return true;
     }
+
     public override bool Equals(object? obj)
     {
-        return obj is Angle a &&
-         numerator == a.numerator &&
-         denominator == a.denominator;
+        if (obj == null) return false;
+
+        if (obj is Angle other)
+        {
+            return this.numenator == other.numenator;
+        };
+        
+        return false;
     }
+
     public override int GetHashCode()
     {
-        return HashCode.Combine(numerator, denominator);
+        return numenator.GetHashCode();
     }
 }
